@@ -1,0 +1,27 @@
+# Data files (too large for git)
+data/raw/cru/
+data/raw/spei/
+data/raw/era5/
+data/raw/grand/
+data/raw/wdi/
+data/raw/polity/
+data/raw/aquastat/
+data/processed/
+
+# Keep TFDD symlinks tracked
+!data/raw/tfdd/
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Orchestrator artifacts
+.orchestrator/
+.worktrees/
+.orchestration-state.json
+tasks.yaml
+contracts/
