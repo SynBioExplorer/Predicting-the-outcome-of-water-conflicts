@@ -72,15 +72,17 @@ Two feature groups met the retention criterion. Economic indicators (GDP per cap
 
 **Table 1. Ablation results for incremental feature group testing.** Each row reports LightGBM validation QWK with default hyperparameters under a fixed temporal split protocol. Delta QWK is computed relative to the best retained configuration at each step.
 
-| Feature Group | Num Features | Val QWK | Delta QWK | Decision |
+| Feature Group | n | QWK | $\Delta$ | Decision |
 |:---|:---:|:---:|:---:|:---:|
-| Baseline TFDD (basin attributes + treaties + event metadata) | 29 | 0.355 | -- | RETAIN |
-| +Climate (precipitation, PET, SPEI-3 drought, anomalies) | 34 | 0.301 | -0.053 | DISCARD |
-| +Governance (Polity V, WGI rule of law, political stability) | 39 | 0.358 | +0.004 | DISCARD |
-| +Economic (GDP/capita, military spend, population, water withdrawal) | 39 | 0.399 | +0.044 | RETAIN |
-| +AQUASTAT (water dependency ratio, agricultural withdrawal %) | 45 | 0.394 | -0.004 | DISCARD |
-| +Asymmetry (GDP ratio, dam ratio, withdrawal ratio, institutional diff) | 47 | 0.385 | -0.014 | DISCARD |
-| +Temporal (event escalation, cooperation momentum, Cold War, treaty rate) | 45 | 0.411 | +0.013 | RETAIN |
+| Baseline TFDD | 29 | 0.355 | -- | RETAIN |
+| +Climate | 34 | 0.301 | -0.053 | DISCARD |
+| +Governance | 39 | 0.358 | +0.004 | DISCARD |
+| +Economic | 39 | 0.399 | +0.044 | RETAIN |
+| +AQUASTAT | 45 | 0.394 | -0.004 | DISCARD |
+| +Asymmetry | 47 | 0.385 | -0.014 | DISCARD |
+| +Temporal | 45 | 0.411 | +0.013 | RETAIN |
+
+Baseline TFDD: basin attributes, treaties, event metadata. Climate: precipitation, PET, SPEI-3 drought, anomalies. Governance: Polity V, WGI rule of law, political stability. Economic: GDP/capita, military spend, population, water withdrawal. AQUASTAT: water dependency ratio, agricultural withdrawal %. Asymmetry: GDP ratio, dam ratio, withdrawal ratio, institutional differential. Temporal: event escalation, cooperation momentum, Cold War indicator, treaty formation rate.
 
 ### Gradient-boosted trees with Optuna tuning achieve best performance
 
@@ -176,15 +178,45 @@ Zeitoun, M. & Warner, J. Hydro-hegemony: a framework for analysis of trans-bound
 
 ---
 
-## Figure Legends
+## Figures
 
-**Figure 1. Model development and evaluation.** (**a**) Ablation results showing validation QWK for each feature group addition. Green bars indicate retained groups; red bars indicate discarded groups. The dashed line marks baseline performance. (**b**) Validation QWK with 95% bootstrap confidence intervals for all six models and the majority-class baseline. (**c**) Test set performance comparison between the ablation-pruned 45-feature model and the full 82-feature model, demonstrating that pruning improves generalisation by +0.069 QWK.
+### Figure 1. Model development and evaluation
 
-**Figure 2. SHAP feature importance analysis.** (**a**) Top 15 features ranked by mean absolute SHAP value across all four ordinal classes. (**b**) SHAP summary plot showing the direction and magnitude of each feature's effect on model output. Positive SHAP values push predictions toward higher cooperation; negative values push toward conflict.
+![Fig 1a: Model comparison](../figures/fig02a_model_comparison.png){width=90%}
 
-**Figure 3. Temporal SHAP decomposition across geopolitical eras.** Mean absolute SHAP values for selected features computed separately for the Cold War (pre-1990), post-Cold War (1990-1999), and post-2000 (2000-2008) periods. Percentage changes annotated for treaty formation rate (+56.5%), cooperation momentum (-26.0%), and treaty stock (-19.5%).
+![Fig 1b: Confusion matrix](../figures/fig02b_confusion_matrix_test.png){width=70%}
 
-**Figure 4. Geographic distribution of transboundary water conflict.** (**a**) Global map of basin-level conflict ratios (proportion of events with BAR < 0). The top 10 basins accounting for 81.3% of conflict events are labelled. (**b**) Continental conflict ratios. (**c**) Temporal trend in mean BAR score, showing post-1975 events are marginally more conflictual (delta = -0.38).
+![Fig 1c: Feature set comparison](../figures/fig02d_feature_set_comparison.png){width=80%}
+
+**Figure 1.** (**a**) Validation QWK with 95% bootstrap confidence intervals for all models and majority-class baseline. (**b**) Normalised confusion matrix for the best model (Optuna-tuned XGBoost) on the held-out test set (2003-2008). (**c**) Test set performance comparison between the ablation-pruned 45-feature model and the full 82-feature model, demonstrating that pruning improves generalisation by +0.069 QWK.
+
+\newpage
+
+### Figure 2. SHAP feature importance analysis
+
+![Fig 2a: SHAP importance](../figures/fig03a_shap_importance.png){width=90%}
+
+![Fig 2b: SHAP beeswarm](../figures/fig03b_shap_beeswarm.png){width=90%}
+
+**Figure 2.** (**a**) Top 15 features ranked by mean absolute SHAP value across all four ordinal classes. (**b**) SHAP summary plot showing the direction and magnitude of each feature's effect on strong cooperation predictions. Colour encodes normalised feature value (blue = low, red = high).
+
+\newpage
+
+### Figure 3. Temporal SHAP decomposition
+
+![Fig 3: Temporal SHAP](../figures/fig03d_temporal_shap.png){width=90%}
+
+**Figure 3.** Mean absolute SHAP values for selected features computed separately for the Cold War (pre-1990), post-Cold War (1990-1999), and post-2000 (2000-2008) periods. Treaty formation rate increased 56.5% in importance from Cold War to post-2000; cooperation momentum decreased 26.0%; treaty stock decreased 19.5%.
+
+\newpage
+
+### Figure 4. Geographic distribution
+
+![Fig 4a: Basin map](../figures/fig04a_basin_map_bar_scale.png){width=90%}
+
+![Fig 4b: Conflict hotspots](../figures/fig04b_conflict_hotspots.png){width=90%}
+
+**Figure 4.** (**a**) Global map of 313 transboundary river basins coloured by mean BAR scale (red = conflict, blue = cooperation). (**b**) Conflict hotspot map showing event density for BAR < 0 events. The top 10 basins account for 81.3% of all conflict events.
 
 ---
 
