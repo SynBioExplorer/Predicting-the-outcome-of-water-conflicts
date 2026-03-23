@@ -11,8 +11,23 @@ data/processed/
 # Keep TFDD symlinks tracked
 !data/raw/tfdd/
 
+# Large data files (not for git)
+*.xls
+*.xlsx
+TFDDSpatialDatabase_20240807/
+final_project_iron_hack.ipynb
+
+# Research notes (not for publication)
+deep-research-report.md
+deep\ research\ 2.md
+execution-plan.md
+
+# Figures HTML (too large)
+figures/*.html
+
 # OS
 .DS_Store
+Thumbs.db
 
 # Python
 __pycache__/
